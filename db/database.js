@@ -1,7 +1,10 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
-const DB_PATH = path.resolve(__dirname, '..', 'database.db');
+const DB_PATH = process.env.VERCEL
+  ? path.join(os.tmpdir(), 'sentinels-of-truth.db')
+  : path.resolve(__dirname, '..', 'database.db');
 let db = new sqlite3.Database(DB_PATH, (err) => {
   if (err) {
     console.error('[DB] Failed to open database:', err.message);
